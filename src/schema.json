@@ -1,0 +1,2191 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "object",
+    "allOf": [
+        {
+            "$ref": "#/definitions/export"
+        },
+        {
+            "properties": {
+                "schedule": {
+                    "type": "object",
+                    "description": "Scheduling workflow",
+                    "oneOf": [
+                        {
+                            "properties": {
+                                "hourly>": {
+                                    "type": "string",
+                                    "description": "Run this job every hour at MM:SS",
+                                    "examples": [
+                                        "30:00"
+                                    ],
+                                    "pattern": "^\\d{2}:\\d{2}$"
+                                }
+                            },
+                            "required": [
+                                "hourly>"
+                            ],
+                            "additionalProperties": false
+                        },
+                        {
+                            "properties": {
+                                "daily>": {
+                                    "type": "string",
+                                    "description": "Run this job every day at HH:MM:SS",
+                                    "examples": [
+                                        "07:00:00"
+                                    ],
+                                    "pattern": "^\\d{2}:\\d{2}:\\d{2}$"
+                                }
+                            },
+                            "required": [
+                                "daily>"
+                            ],
+                            "additionalProperties": false
+                        },
+                        {
+                            "properties": {
+                                "weekly>": {
+                                    "type": "string",
+                                    "description": "Run this job every week on {Day of Week},HH:MM:SS",
+                                    "examples": [
+                                        "Sun,09:00:00"
+                                    ],
+                                    "pattern": "^(Sun|Mon|Tue|Wed|Thu|Fri|Stu),\\d{2}:\\d{2}:\\d{2}$"
+                                }
+                            },
+                            "required": [
+                                "weekly>"
+                            ],
+                            "additionalProperties": false
+                        },
+                        {
+                            "properties": {
+                                "monthly>": {
+                                    "type": "string",
+                                    "description": "Run this job every month on {Day},HH:MM:SS",
+                                    "examples": [
+                                        "1,09:00:00"
+                                    ],
+                                    "pattern": "^\\d+,\\d{2}:\\d{2}:\\d{2}$"
+                                }
+                            },
+                            "required": [
+                                "monthly>"
+                            ],
+                            "additionalProperties": false
+                        },
+                        {
+                            "properties": {
+                                "minutes_interval>": {
+                                    "type": "integer",
+                                    "description": "Run this job every this number of minutes"
+                                }
+                            },
+                            "required": [
+                                "minutes_interval>"
+                            ],
+                            "additionalProperties": false
+                        },
+                        {
+                            "properties": {
+                                "cron>": {
+                                    "type": "string",
+                                    "description": "Use cron format for complex scheduling",
+                                    "examples": [
+                                        "42 4 1 * *"
+                                    ],
+                                    "pattern": "^(\\d+|\\*)\\s+(\\d+|\\*)\\s+(\\d+|\\*)\\s+(\\d+|\\*)\\s+(\\d+|\\*)$"
+                                }
+                            },
+                            "required": [
+                                "cron>"
+                            ],
+                            "additionalProperties": false
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "$ref": "#/definitions/error"
+        },
+        {
+            "oneOf": [
+                {},
+                {
+                    "required": [
+                        "schedule"
+                    ],
+                    "properties": {
+                        "last_session_time": {
+                            "type": "string",
+                            "examples": [
+                                "2016-01-29T23:00:00-08:00"
+                            ]
+                        },
+                        "last_session_date": {
+                            "type": "string",
+                            "examples": [
+                                "2016-01-29"
+                            ]
+                        },
+                        "last_session_date_compact": {
+                            "type": "string",
+                            "examples": [
+                                "20160129"
+                            ]
+                        },
+                        "last_session_local_time": {
+                            "type": "string",
+                            "examples": [
+                                "2016-01-29 00:00:00"
+                            ]
+                        },
+                        "last_session_tz_offset": {
+                            "type": "string",
+                            "examples": [
+                                "-0800"
+                            ]
+                        },
+                        "last_session_unixtime": {
+                            "type": "integer",
+                            "examples": [
+                                1454054400
+                            ]
+                        },
+                        "last_executed_session_time": {
+                            "type": "string",
+                            "examples": [
+                                "2016-01-29T00:00:00-08:00"
+                            ]
+                        },
+                        "last_executed_session_unixtime": {
+                            "type": "string",
+                            "examples": [
+                                "1454054400"
+                            ]
+                        },
+                        "next_session_time": {
+                            "type": "string",
+                            "examples": [
+                                "2016-01-30T01:00:00-08:00"
+                            ]
+                        },
+                        "next_session_date": {
+                            "type": "string",
+                            "examples": [
+                                "2016-01-30"
+                            ]
+                        },
+                        "next_session_date_compact": {
+                            "type": "string",
+                            "examples": [
+                                "20160131"
+                            ]
+                        },
+                        "next_session_local_time": {
+                            "type": "string",
+                            "examples": [
+                                "2016-01-31 00:00:00"
+                            ]
+                        },
+                        "next_session_tz_offset": {
+                            "type": "string",
+                            "examples": [
+                                "-0800"
+                            ]
+                        },
+                        "next_session_unixtime": {
+                            "type": "integer",
+                            "examples": [
+                                1454144400
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "properties": {
+                "timezone": {
+                    "type": "string",
+                    "description": "Timezone of this workflow",
+                    "examples": [
+                        "UTC",
+                        "America/Los_Angeles",
+                        "Asia/Tokyo"
+                    ]
+                },
+                "project_id": {
+                    "type": "integer",
+                    "description": "The project ID of this workflow",
+                    "examples": [
+                        12345
+                    ]
+                },
+                "session_uuid": {
+                    "type": "string",
+                    "description": "Unique UUID of this session",
+                    "examples": [
+                        "414a8b9e-b365-4394-916a-f0ed9987bd2b"
+                    ]
+                },
+                "session_id": {
+                    "type": "integer",
+                    "description": "Integer ID of this session",
+                    "examples": [
+                        2381
+                    ]
+                },
+                "session_time": {
+                    "type": "string",
+                    "description": "Time of this session with time zone",
+                    "examples": [
+                        "2016-01-30T00:00:00-08:00"
+                    ]
+                },
+                "session_date": {
+                    "type": "string",
+                    "description": "Date part of session_time",
+                    "examples": [
+                        "2016-01-30"
+                    ]
+                },
+                "session_date_compact": {
+                    "type": "string",
+                    "description": "Date part of session_time (compact)",
+                    "examples": [
+                        "20160130"
+                    ]
+                },
+                "session_local_time": {
+                    "type": "string",
+                    "description": "Local time format of session_time",
+                    "examples": [
+                        "2016-01-30 00:00:00"
+                    ]
+                },
+                "session_tz_offset": {
+                    "type": "string",
+                    "description": "Time zone offset part of session_time",
+                    "examples": [
+                        "-0800"
+                    ]
+                },
+                "session_unixtime": {
+                    "type": "integer",
+                    "description": "Seconds since the epoch time",
+                    "examples": [
+                        1454140800
+                    ]
+                },
+                "task_name": {
+                    "type": "string",
+                    "description": "Name of this task",
+                    "examples": [
+                        "+my_workflow+parent_task+child_task0"
+                    ]
+                },
+                "attempt_id": {
+                    "type": "string",
+                    "description": "Integer ID of this attempt",
+                    "examples": [
+                        "7"
+                    ]
+                }
+            }
+        }
+    ],
+    "patternProperties": {
+        "^\\+.+": {
+            "$ref": "#/definitions/task"
+        }
+    },
+    "definitions": {
+        "task": {
+            "type": "object",
+            "allOf": [
+                {
+                    "$ref": "#/definitions/export"
+                },
+                {
+                    "$ref": "#/definitions/error"
+                },
+                {
+                    "$ref": "#/definitions/parallel"
+                },
+                {
+                    "properties": {
+                        "_background": {
+                            "type": "boolean",
+                            "default": true,
+                            "description": "the task or group run in parallel with previous tasks."
+                        },
+                        "_retry": {
+                            "description": "it retries the group from the beginning when one or more children failed.",
+                            "default": 3,
+                            "oneOf": [
+                                {
+                                    "type": "integer"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "limit": {
+                                            "type": "integer",
+                                            "default": 3,
+                                            "description": "limit of child tasks in the group run in parallel"
+                                        },
+                                        "interval": {
+                                            "type": "integer",
+                                            "default": 10,
+                                            "description": "interval time (seconds)"
+                                        },
+                                        "interval_type": {
+                                            "type": "string",
+                                            "enum": [
+                                                "constant",
+                                                "exponential"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "limit",
+                                        "interval"
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                }
+            ],
+            "patternProperties": {
+                "^\\+.+": {
+                    "$ref": "#/definitions/task"
+                }
+            },
+            "oneOf": [
+                {
+                    "propertyNames": {
+                        "pattern": "^(_export|_error|_parallel|_background|_retry|\\+.+)"
+                    }
+                },
+                {
+                    "$comment": "https://docs.digdag.io/operators/call.html",
+                    "title": "Calls another workflow",
+                    "properties": {
+                        "call>": {
+                            "type": "string",
+                            "examples": [
+                                "another_workflow.dig"
+                            ],
+                            "description": "Calls another workflow"
+                        }
+                    },
+                    "required": [
+                        "call>"
+                    ]
+                },
+                {
+                    "$comment": "https://docs.digdag.io/operators/http_call.html",
+                    "title": "Call workflow fetched by HTTP",
+                    "allOf": [
+                        {
+                            "properties": {
+                                "http_call>": {
+                                    "type": "string",
+                                    "description": "The URI of the HTTP request.",
+                                    "examples": [
+                                        "https://api.example.com/foobar",
+                                        "https://api.example.com/data/sessions/${session_uuid}"
+                                    ]
+                                },
+                                "content_type_override": {
+                                    "description": "Overrides Content-Type response header returned from the server. This option is useful when the server doesn’t return an appropriate Content-Type but returns a generic value such as text/plain or application/octet-stream.",
+                                    "enum": [
+                                        "application/x-yaml",
+                                        "application/json"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "$ref": "#/definitions/operators/httpProperties"
+                        }
+                    ],
+                    "required": [
+                        "http_call>"
+                    ]
+                },
+                {
+                    "$comment": "https://docs.digdag.io/operators/require.html",
+                    "title": "Depends on another workflow",
+                    "properties": {
+                        "require>": {
+                            "type": "string",
+                            "examples": [
+                                "another_workflow"
+                            ],
+                            "title": "Name of a workflow",
+                            "description": "requires completion of another workflow. This operator is similar to call> operator, but this operator doesn’t start the other workflow if it’s already running or has done for the same session time of this workflow. If the workflow is running or newly started, this operator waits until it completes. In addition, require operator can kick the another project’s workflow."
+                        },
+                        "session_time": {
+                            "type": "string",
+                            "examples": [
+                                "2017-01-01T00:00:00+00:00"
+                            ]
+                        },
+                        "rerun_on": {
+                            "type": "string",
+                            "description": "control require> really kicks or not if the attempt for the dependent workflow already exists.",
+                            "oneOf": [
+                                {
+                                    "const": "none",
+                                    "description": "Not kick the workflow if the attempt already exists."
+                                },
+                                {
+                                    "const": "failed",
+                                    "description": "Kick the workflow if the attempt exists and its result is not success."
+                                },
+                                {
+                                    "const": "all",
+                                    "description": "require> kick the workflow regardless of the result of the attempt."
+                                }
+                            ],
+                            "default": "none"
+                        },
+                        "ignore_failure": {
+                            "type": "boolean",
+                            "description": "if true, this operator succeeds even when the workflow finished with errors."
+                        },
+                        "params": {
+                            "type": "object",
+                            "description": "set parameters.",
+                            "examples": [
+                                {
+                                    "param_name": "param_value"
+                                }
+                            ]
+                        }
+                    },
+                    "oneOf": [
+                        {
+                            "properties": {
+                                "project_id": {
+                                    "type": "integer",
+                                    "description": "another project’s workflow",
+                                    "examples": [
+                                        12345
+                                    ]
+                                },
+                                "project_name": {
+                                    "type": "string",
+                                    "description": "another project’s workflow",
+                                    "examples": [
+                                        "another_project"
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "required": [
+                        "require>"
+                    ]
+                },
+                {
+                    "$comment": "https://docs.digdag.io/operators/loop.html",
+                    "title": "Repeat tasks",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/parallel"
+                        },
+                        {
+                            "properties": {
+                                "loop>": {
+                                    "type": "integer",
+                                    "description": "This operator exports ${i} variable for the subtasks. Its value begins from 0. For example, if count is 3, a task runs with i=0, i=1, and i=2."
+                                },
+                                "_do": {
+                                    "$ref": "#/definitions/task"
+                                }
+                            }
+                        }
+                    ],
+                    "required": [
+                        "loop>",
+                        "_do"
+                    ]
+                },
+                {
+                    "$comment": "https://docs.digdag.io/operators/for_each.html",
+                    "title": "Repeat tasks for values",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/parallel"
+                        },
+                        {
+                            "properties": {
+                                "for_each>": {
+                                    "type": "object",
+                                    "description": "Variables used for the loop in key: [value, value, ...] syntax. Variables can be an object or JSON string.",
+                                    "examples": [
+                                        {
+                                            "fruit": [
+                                                "apple",
+                                                "orange"
+                                            ],
+                                            "i": "[1,2,3]",
+                                            "j": "\"[1,2,3]\""
+                                        }
+                                    ],
+                                    "patternProperties": {
+                                        ".+": {
+                                            "oneOf": [
+                                                {
+                                                    "type": "array",
+                                                    "minItems": 1
+                                                },
+                                                {
+                                                    "type": "string",
+                                                    "description": "JSON string"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "minProperties": 1
+                                },
+                                "_do": {
+                                    "$ref": "#/definitions/task"
+                                }
+                            }
+                        }
+                    ],
+                    "required": [
+                        "for_each>",
+                        "_do"
+                    ]
+                },
+                {
+                    "$comment": "https://docs.digdag.io/operators/for_range.html",
+                    "title": "Repeat tasks for a range",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/parallel"
+                        },
+                        {
+                            "properties": {
+                                "for_range>": {
+                                    "type": "object",
+                                    "description": "operator runs subtasks multiple times using sets of variables.\nThis operator exports ${range.from}, ${range.to}, and ${range.index} variables for the subtasks. Index begins from 0.",
+                                    "properties": {
+                                        "from": {
+                                            "type": "integer"
+                                        },
+                                        "to": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "required": [
+                                        "from",
+                                        "to"
+                                    ],
+                                    "oneOf": [
+                                        {
+                                            "properties": {
+                                                "slices": {
+                                                    "type": "integer",
+                                                    "description": "divide the range into fixed number of slices."
+                                                }
+                                            },
+                                            "required": [
+                                                "slices"
+                                            ]
+                                        },
+                                        {
+                                            "properties": {
+                                                "step": {
+                                                    "type": "integer",
+                                                    "description": "didivide the range by width."
+                                                }
+                                            },
+                                            "required": [
+                                                "step"
+                                            ]
+                                        }
+                                    ],
+                                    "examples": [
+                                        {
+                                            "from": 10,
+                                            "to": 50,
+                                            "step": 10
+                                        },
+                                        {
+                                            "from": 10,
+                                            "to": 50,
+                                            "slices": 3
+                                        }
+                                    ]
+                                },
+                                "_do": {
+                                    "$ref": "#/definitions/task"
+                                }
+                            }
+                        }
+                    ],
+                    "required": [
+                        "for_range>",
+                        "_do"
+                    ]
+                },
+                {
+                    "$comment": "https://docs.digdag.io/operators/if.html",
+                    "title": "Conditional execution",
+                    "properties": {
+                        "if>": {
+                            "description": "if true, _do subtasks are executed. if false, _else_do subtasks are executed."
+                        },
+                        "_do": {
+                            "$ref": "#/definitions/task"
+                        },
+                        "_else_do": {
+                            "$ref": "#/definitions/task"
+                        }
+                    },
+                    "required": [
+                        "if>"
+                    ],
+                    "anyOf": [
+                        {
+                            "required": [
+                                "_do"
+                            ]
+                        },
+                        {
+                            "required": [
+                                "_else_do"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "$comment": "https://docs.digdag.io/operators/fail.html",
+                    "title": "Makes the workflow failed",
+                    "description": "always fails and makes the workflow failed.",
+                    "properties": {
+                        "fail>": {
+                            "type": "string",
+                            "description": "Message so that _error task can refer the message using ${error.message} syntax."
+                        }
+                    },
+                    "required": [
+                        "fail>"
+                    ]
+                },
+                {
+                    "$comment": "https://docs.digdag.io/operators/echo.html",
+                    "title": "Shows a message",
+                    "properties": {
+                        "echo>": {
+                            "type": "string",
+                            "description": "The message to show."
+                        }
+                    },
+                    "required": [
+                        "echo>"
+                    ]
+                },
+                {
+                    "$comment": "https://docs.digdag.io/operators/wait.html",
+                    "title": "Wait for a specific duration",
+                    "properties": {
+                        "wait>": {
+                            "type": "string",
+                            "description": "Duration to wait.",
+                            "examples": [
+                                "10s"
+                            ]
+                        },
+                        "blocking": {
+                            "type": "boolean",
+                            "description": "Digdag agent internally executes this operator in blocking mode and the agent keeps waiting if this option is set to true (default: false)"
+                        },
+                        "poll_interval": {
+                            "type": "string",
+                            "description": "This option is used only with non-blocking mode. If it’s set, digdag agent internally gets awake and checks at a specific interval if the duration has passed. If not set, digdag agent gets awake only when a specific duration passes.",
+                            "examples": [
+                                "5s"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "wait>"
+                    ]
+                },
+                {
+                    "$comment": "https://docs.digdag.io/operators/td.html",
+                    "title": "Treasure Data queries",
+                    "allOf": [
+                        {
+                            "oneOf": [
+                                {
+                                    "properties": {
+                                        "td>": {
+                                            "type": "string",
+                                            "description": "Path to a query template file. This file can contain ${...} syntax to embed variables.",
+                                            "examples": [
+                                                "queries/step1.sql"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "properties": {
+                                        "td>": {
+                                            "type": "object",
+                                            "description": "passed as a string.",
+                                            "properties": {
+                                                "data": {
+                                                    "type": "string",
+                                                    "description": "A query can be passed as a string.",
+                                                    "examples": [
+                                                        "SELECT * FROM nasdaq"
+                                                    ]
+                                                }
+                                            },
+                                            "required": [
+                                                "data"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "properties": {
+                                        "td>": {
+                                            "type": "null",
+                                            "description": "operator only"
+                                        },
+                                        "query": {
+                                            "type": "string",
+                                            "description": "A query template. This string can contain ${...} syntax to embed variables.",
+                                            "examples": [
+                                                "SELECT * FROM ${foo}"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "query"
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "$ref": "#/definitions/operators/td_database"
+                        },
+                        {
+                            "$ref": "#/definitions/operators/td_database_job"
+                        },
+                        {
+                            "$ref": "#/definitions/operators/td_database_engine"
+                        }
+                    ],
+                    "properties": {
+                        "create_table": {
+                            "type": "string",
+                            "description": "Table name to create from the results. This option deletes the table if it already exists.\nThis option adds DROP TABLE IF EXISTS; CREATE TABLE AS before the statements written in the query template file. Also, CREATE TABLE statement can be written in the query template file itself without this command.",
+                            "examples": [
+                                "dest_table"
+                            ]
+                        },
+                        "insert_into": {
+                            "type": "string",
+                            "description": "Table name to append results into.\nThis option adds INSERT INTO before the statements written in the query template file. Also, INSERT INTO statement can be written in the query template file itself without this command.",
+                            "examples": [
+                                "dest_table"
+                            ]
+                        },
+                        "download_file": {
+                            "type": "string",
+                            "description": "Local CSV file name to be downloaded. The file includes the result of query.",
+                            "examples": [
+                                "output.csv"
+                            ]
+                        },
+                        "store_last_results": {
+                            "type": "boolean",
+                            "description": "Stores the first 1 row of the query results to ${td.last_results} variable (default: false). td.last_results is a map of column name and a value. To access to a single value, you can use ${td.last_results.my_count} syntax.",
+                            "examples": [
+                                true
+                            ]
+                        },
+                        "preview": {
+                            "type": "boolean",
+                            "description": "Tries to show some query results to confirm the results of a query.",
+                            "examples": [
+                                true
+                            ]
+                        },
+                        "result_url": {
+                            "type": "string",
+                            "description": "NAME Output the query results to the URL.",
+                            "examples": [
+                                "tableau://username:password@my.tableauserver.com/?mode=replace"
+                            ]
+                        },
+                        "result_connection": {
+                            "type": "string",
+                            "description": "Use a connection to write the query results to an external system.\nYou can create a connection using the web console.",
+                            "examples": [
+                                "my_s3_connection"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "td>"
+                    ]
+                },
+                {
+                    "$comment": "https://docs.digdag.io/operators/td_run.html",
+                    "title": "Treasure Data saved queries",
+                    "properties": {
+                        "td_run>": {
+                            "description": "Runs saved query. If number was specified, it’s considered as an ID of saved query. Otherwise it’s considered as a name of a saved query.",
+                            "oneOf": [
+                                {
+                                    "type": "integer"
+                                },
+                                {
+                                    "type": "string"
+                                }
+                            ],
+                            "examples": [
+                                12345,
+                                "my_query"
+                            ]
+                        },
+                        "download_file": {
+                            "type": "string",
+                            "description": "Local CSV file name to be downloaded. The file includes the result of query.",
+                            "examples": [
+                                "output.csv"
+                            ]
+                        },
+                        "store_last_results": {
+                            "type": "boolean",
+                            "description": "Stores the first 1 row of the query results to ${td.last_results} variable (default: false). td.last_results is a map of column name and a value. To access to a single value, you can use ${td.last_results.my_count} syntax.",
+                            "examples": [
+                                true
+                            ]
+                        },
+                        "preview": {
+                            "type": "boolean",
+                            "description": "Tries to show some query results to confirm the results of a query.",
+                            "examples": [
+                                true
+                            ]
+                        }
+                    },
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/operators/td_connection"
+                        }
+                    ],
+                    "required": [
+                        "td_run>"
+                    ]
+                },
+                {
+                    "$comment": "https://docs.digdag.io/operators/td_ddl.html",
+                    "title": "Treasure Data operations",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/operators/td_database"
+                        },
+                        {
+                            "properties": {
+                                "td_ddl>": {
+                                    "type": "null",
+                                    "description": "operator only"
+                                },
+                                "create_tables": {
+                                    "description": "Create new tables if not exists.",
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/definitions/operators/nameOrNameArray"
+                                        }
+                                    ]
+                                },
+                                "empty_tables": {
+                                    "description": "Create new tables (drop it first if it exists).",
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/definitions/operators/nameOrNameArray"
+                                        }
+                                    ]
+                                },
+                                "drop_tables": {
+                                    "description": "Drop tables if exists.",
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/definitions/operators/nameOrNameArray"
+                                        }
+                                    ]
+                                },
+                                "rename_tables": {
+                                    "type": "array",
+                                    "description": "Rename a table to another name (override the destination table if it already exists).",
+                                    "minItems": 1,
+                                    "items": {
+                                        "properties": {
+                                            "from": {
+                                                "type": "string"
+                                            },
+                                            "to": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "from",
+                                            "to"
+                                        ],
+                                        "examples": [
+                                            {
+                                                "from": "my_table1",
+                                                "to": "my_table2"
+                                            }
+                                        ]
+                                    }
+                                },
+                                "create_databases": {
+                                    "description": "Create new databases if not exists.",
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/definitions/operators/nameOrNameArray"
+                                        }
+                                    ]
+                                },
+                                "empty_databases": {
+                                    "description": "Create new databases (drop it first if it exists).",
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/definitions/operators/nameOrNameArray"
+                                        }
+                                    ]
+                                },
+                                "drop_databases": {
+                                    "description": "Drop databases if exists.",
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/definitions/operators/nameOrNameArray"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "required": [
+                        "td_ddl>"
+                    ]
+                },
+                {
+                    "$comment": "https://docs.digdag.io/operators/td_load.html",
+                    "title": "Treasure Data bulk loading",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/operators/td_database"
+                        },
+                        {
+                            "properties": {
+                                "td_load>": {
+                                    "oneOf": [
+                                        {
+                                            "type": "integer"
+                                        },
+                                        {
+                                            "type": "string"
+                                        }
+                                    ],
+                                    "description": "Path to a YAML template file. This configuration needs to be guessed using td command. If you saved DataConnector job on Treasure Data, you can use Unique ID instead of YAML path.",
+                                    "examples": [
+                                        "imports/load.yml"
+                                    ]
+                                },
+                                "table": {
+                                    "type": "string",
+                                    "description": "Name of the table load data to.",
+                                    "examples": [
+                                        "my_table"
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "required": [
+                        "td_load>"
+                    ]
+                },
+                {
+                    "$comment": "https://docs.digdag.io/operators/td_for_each.html",
+                    "title": "Repeat using Treasure Data queries",
+                    "properties": {
+                        "td_for_each>": {
+                            "type": "string",
+                            "description": "Path to a query template file. This file can contain ${...} syntax to embed variables.",
+                            "examples": [
+                                "queries/step1.sql"
+                            ]
+                        },
+                        "_do": {
+                            "$ref": "#/definitions/task"
+                        }
+                    },
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/parallel"
+                        },
+                        {
+                            "$ref": "#/definitions/operators/td_database"
+                        },
+                        {
+                            "$ref": "#/definitions/operators/td_database_job"
+                        },
+                        {
+                            "$ref": "#/definitions/operators/td_database_engine"
+                        }
+                    ],
+                    "required": [
+                        "td_for_each>",
+                        "_do"
+                    ]
+                },
+                {
+                    "$comment": "https://docs.digdag.io/operators/td_wait.html",
+                    "title": "Waits for data arriving at Treasure Data table",
+                    "properties": {
+                        "td_wait>": {
+                            "type": "string",
+                            "description": "Path to a query template file. This file can contain ${...} syntax to embed variables.",
+                            "examples": [
+                                "queries/check_recent_record.sql"
+                            ]
+                        },
+                        "interval": {
+                            "type": "string",
+                            "description": "Set Interval (default: 30s (30 second)).",
+                            "default": "30s"
+                        }
+                    },
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/operators/td_database"
+                        },
+                        {
+                            "$ref": "#/definitions/operators/td_database_job"
+                        },
+                        {
+                            "$ref": "#/definitions/operators/td_database_engine"
+                        }
+                    ],
+                    "required": [
+                        "td_wait>"
+                    ]
+                },
+                {
+                    "$comment": "https://docs.digdag.io/operators/td_wait_table.html",
+                    "title": "Waits for data arriving at Treasure Data table",
+                    "description": "checks a table periodically until it has certain number of records in a configured range. This is useful to wait execution of following tasks until some records are imported to a table.",
+                    "properties": {
+                        "td_wait_table>": {
+                            "type": "string",
+                            "description": "Name of a table.",
+                            "examples": [
+                                "target_table"
+                            ]
+                        },
+                        "rows": {
+                            "type": "integer",
+                            "description": "Number of rows to wait (default: 0).",
+                            "default": 0
+                        },
+                        "interval": {
+                            "type": "string",
+                            "description": "Set Interval (default: 30s (30 second)).",
+                            "default": "30s"
+                        }
+                    },
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/operators/td_database"
+                        },
+                        {
+                            "$ref": "#/definitions/operators/td_database_job"
+                        },
+                        {
+                            "$ref": "#/definitions/operators/td_database_engine"
+                        }
+                    ],
+                    "required": [
+                        "td_wait_table>"
+                    ]
+                },
+                {
+                    "$comment": "https://docs.digdag.io/operators/td_partial_delete.html",
+                    "title": "Delete range of Treasure Data table",
+                    "properties": {
+                        "td_partial_delete>": {
+                            "type": "string",
+                            "description": "Name of the table.",
+                            "examples": [
+                                "my_table"
+                            ]
+                        },
+                        "from": {
+                            "$ref": "#/definitions/iso8601OrUnixtime",
+                            "description": "Delete records from this time (inclusive). Actual time range is :command:[from, to). Value should be a UNIX timestamp integer (seconds) or string in ISO-8601 (yyyy-MM-ddTHH:mm:ss[Z]) format.",
+                            "examples": [
+                                "2022-05-06T12:23:45+09:00"
+                            ]
+                        },
+                        "to": {
+                            "$ref": "#/definitions/iso8601OrUnixtime",
+                            "description": "Delete records to this time (exclusive). Actual time range is :command:[from, to). Value should be a UNIX timestamp integer (seconds) or string in ISO-8601 (yyyy-MM-ddTHH:mm:ss[Z]) format.",
+                            "examples": [
+                                "2022-05-07T12:23:45+09:00"
+                            ]
+                        }
+                    },
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/operators/td_database"
+                        }
+                    ],
+                    "required": [
+                        "td_partial_delete>"
+                    ]
+                },
+                {
+                    "$comment": "https://docs.digdag.io/operators/td_table_export.html",
+                    "title": "Treasure Data table export to S3",
+                    "properties": {
+                        "td_table_export>": {
+                            "type": "null"
+                        },
+                        "table": {
+                            "type": "string",
+                            "description": "Name of the table to export.",
+                            "examples": [
+                                "my_table"
+                            ]
+                        },
+                        "file_format": {
+                            "enum": [
+                                "tsv.gz",
+                                "jsonl.gz",
+                                "json.gz",
+                                "line-json.gz"
+                            ],
+                            "description": "Output file format. Available formats are tsv.gz (tab-separated values per line) and jsonl.gz (json record per line).\njson.gz and line-json.gz are available only for backward compatibility purpose.",
+                            "examples": [
+                                "tsv.gz",
+                                "jsonl.gz"
+                            ]
+                        },
+                        "from": {
+                            "$ref": "#/definitions/s3timeOrUnixtime",
+                            "description": "Export records from this time (inclusive). Actual time range is :command:[from, to). Value should be a UNIX timestamp integer (seconds) or string in yyyy-MM-dd HH:mm:ss[ Z] format.",
+                            "examples": [
+                                "2022-05-06T12:23:45+09:00"
+                            ]
+                        },
+                        "to": {
+                            "$ref": "#/definitions/s3timeOrUnixtime",
+                            "description": "Export records to this time (exclusive). Actual time range is :command:[from, to). Value should be a UNIX timestamp integer (seconds) or string in yyyy-MM-dd HH:mm:ss[ Z] format.",
+                            "examples": [
+                                "2022-05-07T12:23:45+09:00"
+                            ]
+                        },
+                        "s3_bucket": {
+                            "type": "string",
+                            "description": "S3 bucket name to export records to.",
+                            "examples": [
+                                "my_backup_backet"
+                            ]
+                        },
+                        "s3_path_prefix": {
+                            "type": "string",
+                            "description": "S3 file name prefix.",
+                            "examples": [
+                                "mytable/mydb"
+                            ]
+                        }
+                    },
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/operators/td_database"
+                        }
+                    ],
+                    "required": [
+                        "td_table_export>"
+                    ]
+                },
+                {
+                    "$comment": "https://docs.digdag.io/operators/pg.html",
+                    "title": "PostgreSQL operations",
+                    "properties": {
+                        "pg>": {
+                            "type": "string",
+                            "description": "Path of the query template file. This file can contain ${...} syntax to embed variables.",
+                            "examples": [
+                                "queries/complex_queries.sql"
+                            ]
+                        },
+                        "create_table": {
+                            "type": "string",
+                            "description": "Table name to create from the results. This option deletes the table if it already exists.\nThis option adds DROP TABLE IF EXISTS; CREATE TABLE AS before the statements written in the query template file. Also, CREATE TABLE statement can be written in the query template file itself without this command.",
+                            "examples": [
+                                "dest_table"
+                            ]
+                        },
+                        "insert_into": {
+                            "type": "string",
+                            "description": "Table name to append results into.\nThis option adds INSERT INTO before the statements written in the query template file. Also, INSERT INTO statement can be written in the query template file itself without this command.",
+                            "examples": [
+                                "dest_table"
+                            ]
+                        },
+                        "download_file": {
+                            "type": "string",
+                            "description": "Local CSV file name to be downloaded. The file includes the result of query.",
+                            "examples": [
+                                "output.csv"
+                            ]
+                        },
+                        "store_last_results": {
+                            "description": "Whether to store the query results to pg.last_results parameter.",
+                            "oneOf": [
+                                {
+                                    "const": "false"
+                                },
+                                {
+                                    "const": "first",
+                                    "description": "stores the first row to the parameter as an object (e.g. ${pg.last_results.count})."
+                                },
+                                {
+                                    "const": "all",
+                                    "description": "stores all rows to the parameter as an array of objects (e.g. ${pg.last_results[0].name}). If number of rows exceeds limit, task fails."
+                                }
+                            ]
+                        },
+                        "database": {
+                            "type": "string",
+                            "description": "Database name.",
+                            "examples": [
+                                "my_db"
+                            ]
+                        },
+                        "host": {
+                            "type": "string",
+                            "description": "Hostname or IP address of the database.",
+                            "examples": [
+                                "db.foobar.com"
+                            ]
+                        },
+                        "port": {
+                            "type": "integer",
+                            "description": "Port number to connect to the database.",
+                            "default": 5432
+                        },
+                        "user": {
+                            "type": "string",
+                            "description": "User to connect to the database.",
+                            "examples": [
+                                "app_user"
+                            ]
+                        },
+                        "ssl": {
+                            "type": "boolean",
+                            "description": "Enable SSL to connect to the database.",
+                            "examples": [
+                                true
+                            ]
+                        },
+                        "schema": {
+                            "type": "string",
+                            "description": "Default schema name.",
+                            "default": "public"
+                        },
+                        "strict_transaction": {
+                            "type": "boolean",
+                            "description": "Whether this operator uses a strict transaction to prevent generating unexpected duplicated records just in case. Default: true. This operator creates and uses a status table in the database to make an operation idempotent. But if creating a table isn’t allowed, this option should be false.",
+                            "examples": [
+                                false
+                            ]
+                        },
+                        "status_table_schema": {
+                            "type": "string",
+                            "description": "Schema name of status table.",
+                            "default": "public"
+                        },
+                        "status_table": {
+                            "type": "string",
+                            "description": "Table name of status table.",
+                            "default": "__digdag_status"
+                        },
+                        "password_override": {
+                            "type": "string",
+                            "description": "Secret key name that has a non-default database password as its value. This would be useful whey you want to use multiple database credentials. If it’s set, Digdag looks up secrets with this value as a secret key name. If not, the default secret key pg.password is used.",
+                            "default": "another_password"
+                        }
+                    },
+                    "required": [
+                        "pg>"
+                    ]
+                },
+                {
+                    "$comment": "https://docs.digdag.io/operators/mail.html",
+                    "title": "Sending email",
+                    "properties": {
+                        "mail>": {
+                            "description": "Sending email",
+                            "oneOf": [
+                                {
+                                    "description": "Path to a mail body template file.",
+                                    "examples": [
+                                        "mail_body.txt"
+                                    ],
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "object",
+                                    "examples": [
+                                        {
+                                            "data": "Hello, this is from Digdag"
+                                        }
+                                    ],
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "examples": [
+                                                "Hello, this is from Digdag"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ],
+                                    "description": "embed body text"
+                                }
+                            ]
+                        },
+                        "subject": {
+                            "type": "string",
+                            "description": "Subject of the email.",
+                            "examples": [
+                                "Mail from Digdag"
+                            ]
+                        },
+                        "to": {
+                            "type": "array",
+                            "description": "To addresses.",
+                            "items": {
+                                "type": "string",
+                                "examples": [
+                                    "analyst@examile.com"
+                                ]
+                            },
+                            "minItems": 1,
+                            "examples": [
+                                [
+                                    "analyst@examile.com"
+                                ]
+                            ]
+                        },
+                        "cc": {
+                            "type": "array",
+                            "description": "Cc addresses.",
+                            "items": {
+                                "type": "string",
+                                "examples": [
+                                    "analyst@examile.com"
+                                ]
+                            },
+                            "minItems": 1,
+                            "examples": [
+                                [
+                                    "analyst@examile.com"
+                                ]
+                            ]
+                        },
+                        "bcc": {
+                            "type": "array",
+                            "description": "Bcc addresses.",
+                            "items": {
+                                "type": "string",
+                                "examples": [
+                                    "analyst@examile.com"
+                                ]
+                            },
+                            "minItems": 1,
+                            "examples": [
+                                [
+                                    "analyst@examile.com"
+                                ]
+                            ]
+                        },
+                        "from": {
+                            "type": "string",
+                            "description": "ADDR From address.",
+                            "examples": [
+                                "admin@example.com"
+                            ]
+                        },
+                        "host": {
+                            "type": "string",
+                            "description": "SMTP host name.",
+                            "examples": [
+                                "smtp.gmail.com"
+                            ]
+                        },
+                        "port": {
+                            "type": "integer",
+                            "description": "SMTP port number.",
+                            "examples": [
+                                587
+                            ]
+                        },
+                        "username": {
+                            "type": "string",
+                            "description": "SMTP login username.",
+                            "examples": [
+                                "me"
+                            ]
+                        },
+                        "tls": {
+                            "type": "boolean",
+                            "description": "Enables TLS handshake.",
+                            "examples": [
+                                true
+                            ]
+                        },
+                        "ssl": {
+                            "type": "boolean",
+                            "description": "Enables legacy SSL encryption.",
+                            "examples": [
+                                false
+                            ]
+                        },
+                        "html": {
+                            "type": "boolean",
+                            "description": "Uses HTML mail (default: false).",
+                            "default": false
+                        },
+                        "debug": {
+                            "type": "boolean",
+                            "description": "Shows debug logs (default: false).",
+                            "default": false
+                        },
+                        "attach_files": {
+                            "type": "array",
+                            "description": "Attach files.",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "path": {
+                                        "type": "string",
+                                        "description": "Path to a file to attach.",
+                                        "examples": [
+                                            "data.csv"
+                                        ]
+                                    },
+                                    "content_type": {
+                                        "type": "string",
+                                        "description": "Content-Type of this file.",
+                                        "examples": [
+                                            "application/octet-stream"
+                                        ]
+                                    },
+                                    "filename": {
+                                        "type": "string",
+                                        "description": "Name of this file.",
+                                        "examples": [
+                                            "data.csv"
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "path"
+                                ],
+                                "examples": [
+                                    {
+                                        "path": "images/image1.png",
+                                        "filename": "images/image.png",
+                                        "content_type": "image/png"
+                                    }
+                                ]
+                            },
+                            "minItems": 1
+                        }
+                    },
+                    "required": [
+                        "mail>"
+                    ]
+                },
+                {
+                    "$comment": "https://docs.digdag.io/operators/http.html",
+                    "title": "Making HTTP requests",
+                    "allOf": [
+                        {
+                            "properties": {
+                                "http>": {
+                                    "type": "string",
+                                    "description": "The URI of the HTTP request.",
+                                    "examples": [
+                                        "https://api.example.com/foobar",
+                                        "https://api.example.com/data/sessions/${session_uuid}"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "$ref": "#/definitions/operators/httpProperties"
+                        }
+                    ],
+                    "required": [
+                        "http>"
+                    ]
+                },
+                {
+                    "$comment": "https://docs.digdag.io/operators/s3_wait.html",
+                    "title": "Wait for a file in Amazon S3",
+                    "properties": {
+                        "s3_wait>": {
+                            "type": "string",
+                            "description": "Path to the file in Amazon S3 to wait for.",
+                            "examples": [
+                                "my-bucket/my-data.gz",
+                                "my-bucket/file/in/a/directory"
+                            ]
+                        },
+                        "region": {
+                            "type": "string",
+                            "description": "AWS Region in which to access S3. This may also be specified using the aws.s3.region secret.",
+                            "examples": [
+                                "us-east-1"
+                            ]
+                        },
+                        "endpoint": {
+                            "type": "string",
+                            "description": "AWS Region in which to access S3. This may also be specified using the aws.s3.endpoint secret. Note: This will override the region parameter."
+                        },
+                        "bucket": {
+                            "type": "string",
+                            "description": "The S3 bucket where the file is located. Can be used together with the key parameter instead of putting the path on the operator line.",
+                            "examples": [
+                                "my_bucket"
+                            ]
+                        },
+                        "key": {
+                            "type": "string",
+                            "description": "The S3 key of the file. Can be used together with the bucket parameter instead of putting the path on the operator line.",
+                            "examples": [
+                                "my_file"
+                            ]
+                        },
+                        "version_id": {
+                            "type": "integer",
+                            "description": "version to check for.",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "path_style_access": {
+                            "type": "boolean",
+                            "description": "control whether to use path-style or virtual hosted-style access when accessing S3. Note: Enabling path_style_access also requires specifying a region."
+                        },
+                        "timeout": {
+                            "type": "string",
+                            "description": "Set timeout.",
+                            "examples": [
+                                "120s"
+                            ]
+                        },
+                        "continue_on_timeout": {
+                            "type": "boolean",
+                            "description": "If continue_on_timeout is set to true, the task will finish successfully on timeout. s3.last_object is empty in this case. Empty check is required in following tasks if access to s3.last_object."
+                        }
+                    },
+                    "required": [
+                        "s3_wait>"
+                    ]
+                },
+                {
+                    "$comment": "TODO: https://docs.digdag.io/operators/redshift.html",
+                    "title": "Redshift operations",
+                    "properties": {
+                        "redshift>": {
+                            "type": "string",
+                            "description": "Path of the query template file. This file can contain ${...} syntax to embed variables.",
+                            "examples": [
+                                "queries/complex_queries.sql"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "redshift>"
+                    ]
+                },
+                {
+                    "$comment": "TODO: https://docs.digdag.io/operators/redshift_load.html",
+                    "title": "Redshift load operations",
+                    "properties": {
+                        "redshift_load>": {}
+                    },
+                    "required": [
+                        "redshift_load>"
+                    ]
+                },
+                {
+                    "$comment": "TODO: https://docs.digdag.io/operators/redshift_unload.html",
+                    "title": "Redshift unload operations",
+                    "properties": {
+                        "redshift_unload>": {}
+                    },
+                    "required": [
+                        "redshift_unload>"
+                    ]
+                },
+                {
+                    "$comment": "TODO: https://docs.digdag.io/operators/emr.html",
+                    "title": "Amazon Elastic Map Reduce",
+                    "properties": {
+                        "emr>": {}
+                    },
+                    "required": [
+                        "emr>"
+                    ]
+                },
+                {
+                    "$comment": "TODO: https://docs.digdag.io/operators/gcs_wait.html",
+                    "title": "Wait for a file in Google Cloud Storage",
+                    "properties": {
+                        "gcs_wait>": {}
+                    },
+                    "required": [
+                        "gcs_wait>"
+                    ]
+                },
+                {
+                    "$comment": "TODO: https://docs.digdag.io/operators/bq.html",
+                    "title": "Running Google BigQuery queries",
+                    "properties": {
+                        "bq>": {}
+                    },
+                    "required": [
+                        "bq>"
+                    ]
+                },
+                {
+                    "$comment": "TODO: https://docs.digdag.io/operators/bq_ddl.html",
+                    "title": "Managing Google BigQuery Datasets and Tables",
+                    "properties": {
+                        "bq_ddl>": {}
+                    },
+                    "required": [
+                        "bq_ddl>"
+                    ]
+                },
+                {
+                    "$comment": "TODO: https://docs.digdag.io/operators/bq_extract.html",
+                    "title": "Exporting Data from Google BigQuery",
+                    "properties": {
+                        "bq_extract>": {}
+                    },
+                    "required": [
+                        "bq_extract>"
+                    ]
+                },
+                {
+                    "$comment": "TODO: https://docs.digdag.io/operators/bq_load.html",
+                    "title": "Importing Data into Google BigQuery",
+                    "properties": {
+                        "bq_load>": {}
+                    },
+                    "required": [
+                        "bq_load>"
+                    ]
+                },
+                {
+                    "$comment": "TODO: https://docs.digdag.io/operators/sh.html",
+                    "title": "Shell scripts",
+                    "properties": {
+                        "sh>": {
+                            "type": "string",
+                            "description": "Name of a command to run.",
+                            "examples": [
+                                "tasks/workflow.sh --task1"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "sh>"
+                    ]
+                },
+                {
+                    "$comment": "https://docs.digdag.io/operators/py.html",
+                    "title": "Python scripts",
+                    "properties": {
+                        "py>": {
+                            "type": "string",
+                            "description": "Name of a method to run.",
+                            "pattern": "(.+\\..+\\.)?.+",
+                            "examples": [
+                                "tasks.MyWorkflow.my_task"
+                            ]
+                        },
+                        "python": {
+                            "oneOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "minItems": 1
+                                }
+                            ],
+                            "description": "The python defaults to python. If an alternate python and options are desired, use the python option.",
+                            "examples": [
+                                "/opt/conda/bin/python",
+                                "[\"python\", \"-v\"]"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "py>"
+                    ]
+                },
+                {
+                    "$comment": "https://docs.digdag.io/operators/rb.html",
+                    "title": "Ruby scripts",
+                    "properties": {
+                        "rb>": {
+                            "type": "string",
+                            "description": "Name of a method to run.",
+                            "pattern": "(.+::.+\\.)?.+",
+                            "examples": [
+                                "Task::MyWorkflow.my_task"
+                            ]
+                        },
+                        "require": {
+                            "type": "string",
+                            "description": "Name of a file to require.",
+                            "examples": [
+                                "task/my_workflow"
+                            ]
+                        },
+                        "ruby": {
+                            "oneOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "minItems": 1
+                                }
+                            ],
+                            "description": "The ruby defaults to ruby. If an alternate ruby and options are desired, use the ruby option.",
+                            "examples": [
+                                "/usr/local/bin/ruby",
+                                "[\"ruby\", \"-rbundler/setup\"]"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "rb>"
+                    ]
+                },
+                {
+                    "$comment": "TODO: https://docs.digdag.io/operators/param_get.html",
+                    "title": "Get persistent data from ParamServer and set it as a value of store parameters",
+                    "properties": {
+                        "param_get>": {}
+                    },
+                    "required": [
+                        "param_get>"
+                    ]
+                },
+                {
+                    "$comment": "TODO: https://docs.digdag.io/operators/param_set.html",
+                    "title": "Set a value into a ParamServer as persistent data",
+                    "properties": {
+                        "param_set>": {}
+                    },
+                    "required": [
+                        "param_set>"
+                    ]
+                }
+            ]
+        },
+        "operators": {
+            "nameOrNameArray": {
+                "oneOf": [
+                    {
+                        "type": "string"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "minItems": 1
+                    }
+                ],
+                "examples": [
+                    [
+                        "my_data1",
+                        "my_data2"
+                    ],
+                    "my_data"
+                ]
+            },
+            "httpProperties": {
+                "type": "object",
+                "properties": {
+                    "method": {
+                        "type": "string",
+                        "description": "The method of the HTTP request.",
+                        "default": "GET",
+                        "examples": [
+                            "GET",
+                            "POST",
+                            "DELETE",
+                            "PUT",
+                            "HEAD",
+                            "OPTIONS",
+                            "TRACE",
+                            "PATCH"
+                        ]
+                    },
+                    "content": {
+                        "description": "The content of the HTTP request. calars (i.e. strings, integers, booleans, etc) will by default be sent as plain text. Objects and arrays will by default be JSON serialized. "
+                    },
+                    "content_format": {
+                        "description": "The serialization format of the content of the HTTP request"
+                    },
+                    "content_type": {
+                        "type": "string",
+                        "description": "Override the inferred Content-Type header.",
+                        "examples": [
+                            "application/xml"
+                        ]
+                    },
+                    "store_content": {
+                        "type": "boolean",
+                        "description": "Whether to store the content of the response.",
+                        "default": false
+                    },
+                    "headers": {
+                        "type": "array",
+                        "description": "Additional custom headers to send with the HTTP request.",
+                        "items": {
+                            "type": "object",
+                            "minProperties": 1,
+                            "maxProperties": 1,
+                            "examples": [
+                                [
+                                    {
+                                        "Accept": "application/json"
+                                    },
+                                    {
+                                        "X-Foo": "bar"
+                                    },
+                                    {
+                                        "Baz": "quux"
+                                    }
+                                ]
+                            ]
+                        }
+                    },
+                    "retry": {
+                        "type": "boolean",
+                        "description": "Whether to retry ephemeral errors. Default: true if the request method is GET, HEAD, OPTIONS or TRACE. Otherwise false.\nClient 4xx errors (except for 408 Request Timeout and 429 Too Many Requests) will not be retried even if retry is set to true."
+                    },
+                    "timeout": {
+                        "type": "integer",
+                        "description": "The timeout second used for http operations.",
+                        "default": 30
+                    }
+                },
+                "anyOf": [
+                    {
+                        "properties": {
+                            "content": {
+                                "oneOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "integer"
+                                    },
+                                    {
+                                        "type": "boolean"
+                                    }
+                                ]
+                            },
+                            "content_format": {
+                                "const": "text",
+                                "description": "Send raw content as Content-Type: text/plain."
+                            }
+                        }
+                    },
+                    {
+                        "properties": {
+                            "content": {
+                                "oneOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "integer"
+                                    },
+                                    {
+                                        "type": "boolean"
+                                    },
+                                    {
+                                        "type": "object"
+                                    },
+                                    {
+                                        "type": "array"
+                                    }
+                                ]
+                            },
+                            "content_format": {
+                                "const": "json",
+                                "description": "Serialize the content as JSON and send it as Content-Type: application/json."
+                            }
+                        }
+                    },
+                    {
+                        "properties": {
+                            "content": {
+                                "type": "object"
+                            },
+                            "content_format": {
+                                "const": "form",
+                                "description": "Encode content as an HTML form and send it as Content-Type: application/x-www-form-urlencoded."
+                            }
+                        }
+                    }
+                ]
+            },
+            "td_connection": {
+                "type": "object",
+                "properties": {
+                    "endpoint": {
+                        "type": "string",
+                        "description": "API endpoint.",
+                        "default": "api.treasuredata.com"
+                    },
+                    "use_ssl": {
+                        "type": "boolean",
+                        "description": "Enable SSL (https) to access to the endpoint (default: true).",
+                        "examples": [
+                            true
+                        ]
+                    }
+                }
+            },
+            "td_database": {
+                "type": "object",
+                "properties": {
+                    "database": {
+                        "type": "string",
+                        "description": "Database name.",
+                        "examples": [
+                            "my_db"
+                        ]
+                    }
+                },
+                "allOf": [
+                    {
+                        "$ref": "#/definitions/operators/td_connection"
+                    }
+                ]
+            },
+            "td_database_job": {
+                "type": "object",
+                "properties": {
+                    "priority": {
+                        "type": "integer",
+                        "description": "Set Priority (From -2 (VERY LOW) to 2 (VERY HIGH) , default: 0 (NORMAL)).",
+                        "minimum": -2,
+                        "maximum": 2
+                    },
+                    "job_retry": {
+                        "type": "integer",
+                        "description": "Set automatic job retry count (default: 0).",
+                        "minimum": 0
+                    }
+                }
+            },
+            "td_database_engine": {
+                "type": "object",
+                "properties": {
+                    "engine": {
+                        "description": "Query engine.",
+                        "default": "presto",
+                        "enum": [
+                            "presto",
+                            "hive"
+                        ]
+                    },
+                    "engine_version": {
+                        "type": "string",
+                        "description": "Specify engine version for Hive and Presto.",
+                        "examples": [
+                            "stable"
+                        ]
+                    }
+                },
+                "anyOf": [
+                    {
+                        "oneOf": [
+                            {
+                                "properties": {
+                                    "engine": {
+                                        "const": "presto"
+                                    },
+                                    "presto_pool_name": {
+                                        "type": "string",
+                                        "description": "Name of a resource pool to run the query in.",
+                                        "examples": [
+                                            "poc"
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "engine"
+                                ]
+                            },
+                            {
+                                "properties": {
+                                    "engine": {
+                                        "const": "hive"
+                                    },
+                                    "hive_pool_name": {
+                                        "type": "string",
+                                        "description": "Name of a resource pool to run the query in.",
+                                        "examples": [
+                                            "poc"
+                                        ]
+                                    },
+                                    "hive_engine_version": {
+                                        "type": "string",
+                                        "description": "Specify engine version for Hive. This option overrides engine_version if engine is hive.",
+                                        "examples": [
+                                            "stable"
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "engine"
+                                ]
+                            },
+                            {}
+                        ]
+                    },
+                    {
+                        "properties": {
+                            "result_settings": {
+                                "type": "object",
+                                "description": "Whether this operator uses a strict transaction to prevent generating unexpected duplicated records just in case. Default: true. This operator creates and uses a status table in the database to make an operation idempotent. But if creating a table isn’t allowed, this option should be false.",
+                                "examples": [
+                                    {
+                                        "bucket": "my_s3_bucket",
+                                        "path": "/logs/"
+                                    }
+                                ]
+                            }
+                        },
+                        "required": [
+                            "result_connection"
+                        ]
+                    }
+                ]
+            }
+        },
+        "iso8601OrUnixtime": {
+            "oneOf": [
+                {
+                    "type": "string",
+                    "pattern": "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(Z|[\\+-]\\d{2}:\\d{2})"
+                },
+                {
+                    "type": "number"
+                }
+            ]
+        },
+        "s3timeOrUnixtime": {
+            "oneOf": [
+                {
+                    "type": "string",
+                    "pattern": "\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2} (Z|[\\+-]\\d{2}:\\d{2})"
+                },
+                {
+                    "type": "number",
+                    "description": "unixtime"
+                }
+            ],
+            "description": "timestamp"
+        },
+        "export": {
+            "type": "object",
+            "properties": {
+                "_export": {
+                    "type": "object",
+                    "description": "environment variables"
+                }
+            }
+        },
+        "parallel": {
+            "type": "object",
+            "properties": {
+                "_parallel": {
+                    "description": "child tasks in the group run in parallel (grandchildren are not affected):",
+                    "default": true,
+                    "oneOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "object",
+                            "properties": {
+                                "limit": {
+                                    "type": "integer",
+                                    "default": 3,
+                                    "description": "limit of child tasks in the group run in parallel"
+                                }
+                            },
+                            "required": [
+                                "limit"
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "error": {
+            "type": "object",
+            "properties": {
+                "_error": {
+                    "$ref": "#/definitions/task"
+                }
+            }
+        }
+    }
+}
