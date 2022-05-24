@@ -2,11 +2,11 @@
 	"name": "digdag-as-yaml",
 	"displayName": "Digdag as yaml",
 	"description": "Digdag language support",
-	"version": "0.0.1",
-	"license": "MIT",
 	"repository": {
-		"url": "https://github.com/FKbelm/digdag-as-yaml.git"
+		"url": "https://github.com/FKbelm/digdag-as-yaml"
 	},
+	"version": "0.0.2",
+	"license": "MIT",
 	"publisher": "FKBelm",
 	"engines": {
 		"vscode": "^1.60.0"
